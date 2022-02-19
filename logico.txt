@@ -1,0 +1,137 @@
+﻿ENTIDADES
+
+GIMNASIO_ACT1 {CIF(PK) , Direccion, CP, tlf}
+PK:{ CIF}
+
+
+CLIENTE { ID (PK) ,nombre ,apellido1, apellido2 , direccion , CP , TLF, IBAN ,gimnasio(FK GIMNASIO_ACT1)}
+PK:{ ID }
+FK :{CLIENTE.gimnasio es clave ajena a GIMNASIO_ACT1.CIF }
+Acepta nulos:NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+
+SUSCRIPCION { ID (PK), Fecha_inicio, Fecha_final, Pago, Rutina,cliente(FK CLIENTE), abono(FK ABONO) , curso(FK CURSO) } 
+PK:{ID}
+FK :{SUSCRIPCION.cliente es clave ajena a CLIENTE.ID }
+Acepta nulos: NO
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+FK :{SUSCRIPCION.abono es clave ajena a ABONO.ID }
+Acepta nulos: SI
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+FK :{SUSCRIPCION.curso es clave ajena a CURSO.ID }
+Acepta nulos:SI 
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+
+Dominio de Rutina: [Pérdida peso, Ganancia volumen, Tonificación, Mejora rendimiento, Musculación]
+
+
+ABONO {id (PK) , nombre, descripcion, coste }
+PK:{id}
+
+
+EMPLEADO {Id (PK), Nombre, Apellido1,  Apellido2, Direccion , CP, TLF, IBAN, Contrato(FK GIMNASIO_ACT1), zona(FK ZONA) , turno(FK TURNO)}
+PK:{Id }
+FK :{EMPLEADO.Contrato es clave ajena a GIMNASIO_ACT1.CIF }
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+FK :{EMPLEADO.zona es clave ajena a ZONA.ID }
+Acepta nulos:SI 
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+FK :{EMPLEADO.turno es clave ajena a TURNO.ID }
+Acepta nulos:NO
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+
+NOMINA {ID(PK) , fecha, Categoria, Sueldo_base, Plus_mantenimiento, Plus_curso, empleado (FK EMPLEADO)}
+PK:{Id_nomina }
+FK :{ NOMINA.empleado es clave ajena a EMPLEADO.ID}
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+
+Dominio de Categoria: [Administrativo,Monitor,Tecnico Mantenimiento, Nutricionista, Limpieza]
+
+
+CURSO {id(PK) , nombre, descripcion, coste, fecha_realización,  max_participantes}        
+PK:{id}
+
+
+MAQUINAS {ID(PK), Tipo, Estado, zona (FK ZONA)}
+PK:{ ID }
+FK :{ MAQUINAS.zona es clave ajena a ZONAS.ID}
+Acepta nulos: NO
+Borrado: RESTRINGIR
+Modificación:PROPAGAR
+
+
+Dominio de Estado: [Activa, En reparación, Averiada]
+
+
+TURNO {ID (PK) , Entrada, Salida}
+PK:{ID }
+
+
+ZONA {id(PK) , nombre, descripción}
+PK:{ ID }
+
+
+
+
+RELACIONES
+
+
+INSCRIBE 
+PERTENECE
+CONTRATA
+TIENE
+AUTORIZA (TABLA)
+REALIZA
+SE_UBICA
+MANTENER
+RECIBE 
+TRABAJA
+IMPARTE (TABLA)
+
+
+
+
+TABLAS RELACIONES
+
+AUTORIZA {abn_aut, zona_aut}
+PK:{abn_aut, zona_aut}
+FK :{AUTORIZA.abn_aut es clave ajena a ABONO.ID}
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+FK :{ AUTORIZA.zona_aut es clave ajena a ZONA.ID}
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+
+IMPARTE{curso, profesor}
+PK:{curso, profesor}
+FK :{IMPARTE.curso es clave ajena a CURSO.ID}
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
+
+FK :{IMPARTE.profesor es clave ajena a EMPLEADO.Id}
+Acepta nulos: NO
+Borrado: PROPAGAR
+Modificación:PROPAGAR
